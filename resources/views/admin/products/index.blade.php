@@ -3,6 +3,7 @@
 @section('content')
 	
 	<a href="{{route('products.create')}}" class="btn btn-lg  btn-success">Criar Produto</a>
+	<hr>
 	<table class="table table-striped">
 		<thead>
 			<tr>

@@ -1,4 +1,4 @@
-<h1>Obrigado por sua inscrição</h1>
+<h1>Olá,{{$user->name}} tudo bem? Obrigado por sua inscrição</h1>
 
 <p>
 	Faça excelentes compras

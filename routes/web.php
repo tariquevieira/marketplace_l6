@@ -43,23 +43,36 @@ Route::group(['middleware'=>['auth']],function(){
 	Route::get('my-orders','UserOrderController@index')->name('user.orders');
 
 	Route::prefix('admin')->namespace('Admin')->group(function(){
-	Route::prefix('stores')->group(function(){
-		Route::get('/','StoreController@index')->name('admin.stores.index');
-		Route::get('/create','StoreController@create')->name('admin.stores.create');
-		Route::post('/store','StoreController@store')->name('admin.stores.store');
-		Route::get('/{store}/edit','StoreController@edit')->name('admin.stores.edit');
-		Route::post('/update/{store}','StoreController@update')->name('admin.stores.update');
-		Route::get('/destroy/{store}','StoreController@destroy')->name('admin.stores.destroy');
+		Route::get('notifications', 'NotificationController@notifications')->name('notification.index');
+		Route::get('notifications/read-all', 'NotificationController@readAll')->name('notification.readall');
+		Route::get('notifications/read/{notification}', 'NotificationController@read')->name('notification.read');
+		
+		Route::prefix('stores')->group(function(){
 
+			Route::get('/','StoreController@index')->name('admin.stores.index');
+			Route::get('/create','StoreController@create')->name('admin.stores.create');
+			Route::post('/store','StoreController@store')->name('admin.stores.store');
+			Route::get('/{store}/edit','StoreController@edit')->name('admin.stores.edit');
+			Route::post('/update/{store}','StoreController@update')->name('admin.stores.update');
+			Route::get('/destroy/{store}','StoreController@destroy')->name('admin.stores.destroy');
+
+		});
+		Route::resource('products','ProductController');
+		Route::resource('categories','CategoryController');
+		Route::post('photos/remove/','ProductPhotoController@removePhoto')->name('photo.remove');
+		Route::get('orders/my','OrdersController@index')->name('orders.my');
 	});
-	Route::resource('products','ProductController');
-	Route::resource('categories','CategoryController');
-	Route::post('photos/remove/','ProductPhotoController@removePhoto')->name('photo.remove');
-	Route::get('orders/my','OrdersController@index')->name('orders.my');
-});
 
 });
 
 Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('not',function(){
+// 	$user = \App\User::find(41);
+// 	$user->notify(new \App\Notifications\StoreReceiveNewOrder());
+// 	// $notification = $user->unreadNotifications();
+// 	// $notification->markAsRead
+// 		return $user->unreadNotifications;
+// });
+
+//Route::get('/home', 'HomeController@index');

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\UserOrder;
 use App\User;
 
-
 class CheckoutController extends Controller
 {
     public function index()
@@ -50,6 +49,9 @@ class CheckoutController extends Controller
 
         $userOrder=$user->orders()->create($userOrder);
         $userOrder->stores()->sync($stores);
+
+        //notificar loja de novo pedido
+        $store = (new Store())->notifyStoreOwners($stores);
 
         session()->forget('cart');
         session()->forget('pagseguro_session_code');
