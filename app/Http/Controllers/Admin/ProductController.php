@@ -27,13 +27,14 @@ class ProductController extends Controller
 
     public function __construct(Product $product)
     {
-       
+     
         $this->product = $product;
         $this->paginate = 10;
     }
 
     public function index()
     {
+        if(!auth()->user()->store()->exists()) return redirect()->route('admin.stores.index');
         $store = auth()->user()->store;
         //use aqui para testar atributos
         $products = $store->products()->paginate($this->paginate);
@@ -74,7 +75,7 @@ class ProductController extends Controller
 
         // inserir fotos na tabela fotos
 
-           $product->photos()->createMany($images); 
+            $product->photos()->createMany($images); 
         }
 
         flash('Produto Criado com Sucesso')->success();
@@ -126,7 +127,7 @@ class ProductController extends Controller
 
         // inserir fotos na tabela fotos
             
-           $product->photos()->createMany($images); 
+            $product->photos()->createMany($images); 
         }
 
         
@@ -143,11 +144,11 @@ class ProductController extends Controller
     public function destroy($product)
     {
       $product = $this->product->find($product);
-        $product->delete();
-        
-        flash('Produto apagado com Sucesso')->success();
-        return redirect()->route('products.index');   
-    }
+      $product->delete();
+      
+      flash('Produto apagado com Sucesso')->success();
+      return redirect()->route('products.index');   
+  }
 
-    
+  
 }
